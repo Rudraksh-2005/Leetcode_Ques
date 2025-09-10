@@ -1,0 +1,50 @@
+class Solution {
+public:
+     bool canCommunicate(int n, int p, int q, vector<vector<int>>& languages) {
+        unordered_set<int> a(languages[p-1].begin(), languages[p-1].end());
+        unordered_set<int> b(languages[q-1].begin(), languages[q-1].end());
+
+        for(auto lang : a){
+            if(b.find(lang) != b.end()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    int minimumTeachings(int n, vector<vector<int>>& languages, vector<vector<int>>& friendships) {
+        unordered_set<int> problematicPeople;
+        vector<pair<int,int>> problematicFriendships;
+
+        for(auto &f : friendships){
+            int p = f[0];
+            int q = f[1];
+            if(!canCommunicate(n, p, q, languages)){
+                problematicPeople.insert(p);
+                problematicPeople.insert(q);
+                problematicFriendships.push_back({p, q});
+            }
+        }
+
+        int result = INT_MAX;
+
+        for(int lang = 1; lang <= n; lang++){
+            unordered_set<int> toTeach;
+
+            for(auto &pair : problematicFriendships){
+                int p = pair.first;
+                int q = pair.second;
+
+                bool pKnows = find(languages[p-1].begin(), languages[p-1].end(), lang) != languages[p-1].end();
+                bool qKnows = find(languages[q-1].begin(), languages[q-1].end(), lang) != languages[q-1].end();
+
+                if(!pKnows) toTeach.insert(p);
+                if(!qKnows) toTeach.insert(q);
+            }
+
+            result = min(result, (int)toTeach.size());
+        }
+
+        return result;
+    }
+};
