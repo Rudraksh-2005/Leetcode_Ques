@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int maxFreqSum(string s) {
+        int n=s.length();
+        map<char,int>vowels;
+        map<char,int>cons;
+
+        for(int i=0;i<n;i++){
+            if(s[i]=='a' || s[i]=='e' || s[i]=='i'|| s[i]=='o'|| s[i]=='u'){
+                vowels[s[i]]++;
+            }
+            else{
+                cons[s[i]]++;
+            }
+        }
+
+        int vmax=0;
+        int cmax=0;
+
+        for(auto it:vowels){
+            vmax=max(vmax,it.second);
+        }
+        for(auto it:cons){
+            cmax=max(cmax,it.second);
+        }
+
+        return vmax+cmax;
+    }
+};
