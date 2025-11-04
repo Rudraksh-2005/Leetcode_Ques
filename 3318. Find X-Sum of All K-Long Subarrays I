@@ -1,0 +1,47 @@
+class Solution {
+public:
+    void solve(vector<int>&p,vector<int>&nums,vector<int>&ans,int k,int x,int i){
+        
+        map<int,int>mpp;
+        for(int ind=0;ind<p.size();ind++){
+            mpp[p[ind]]++;
+        }
+        vector<pair<int,int>>freq;
+        for(auto it:mpp){
+            freq.push_back({it.first,it.second});
+        }
+
+        sort(freq.begin(),freq.end(),[](const pair<int,int>a,const pair<int,int>b){
+            if(a.second==b.second){
+                return a.first>b.first;
+            }
+            return a.second>b.second;
+        });
+
+        int m=freq.size();
+        if(x>m) ans[i]= accumulate(p.begin(),p.end(), 0);
+        else{
+            int sum=0;
+            for(int ind=0;ind<x;ind++){
+                sum+=(freq[ind].first * freq[ind].second);
+            }
+            ans[i]=sum;
+        }
+    }
+
+
+    vector<int> findXSum(vector<int>& nums, int k, int x) {
+        int n=nums.size();
+        vector<int>ans(n-k+1,0);
+
+        for(int i=0;i<=n-k;i++){
+            vector<int>p;
+            for(int j=i;j<=i+k-1;j++){
+                p.push_back(nums[j]);
+            }
+            solve(p,nums,ans,k,x,i);
+        }
+
+        return ans;
+    }
+};
