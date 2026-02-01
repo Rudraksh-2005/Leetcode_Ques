@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int minimumCost(vector<int>& nums) {
+        int n=nums.size();
+        if(n==3) return accumulate(nums.begin(),nums.end(),0);
+
+        int sum=nums[0];
+
+        sort(nums.begin()+1,nums.end());
+        sum= sum+nums[1] +nums[2];
+
+        return sum;
+
+    }
+};
