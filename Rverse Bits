@@ -1,0 +1,10 @@
+class Solution {
+public:
+    int reverseBits(int n) {
+        string ans=bitset<32>(n).to_string();
+        reverse(ans.begin(),ans.end());
+        int no=stoi(ans,NULL,2);
+        return no;
+
+    }
+};
