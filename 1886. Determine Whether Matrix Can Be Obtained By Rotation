@@ -1,0 +1,29 @@
+class Solution {
+public:
+    void rot(vector<vector<int>>& mat){
+        int n = mat.size();
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                swap(mat[i][j], mat[j][i]);
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            reverse(mat[i].begin(), mat[i].end());
+        }
+
+    }
+    bool findRotation(vector<vector<int>>& mat, vector<vector<int>>& target) {
+        int n=mat.size();
+        int i=0;
+        while(i<4){
+            rot(mat);
+            if(mat==target){
+                return true;
+            }
+            i++;
+        }
+
+        return false;a
+    }
+};
