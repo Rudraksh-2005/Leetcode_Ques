@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int xorAfterQueries(vector<int>& nums, vector<vector<int>>& queries) {
+         const int MOD = 1e9 + 7;
+        
+        
+        auto mortavexil = queries;  
+
+        for (auto &q : mortavexil) {
+            int li = q[0], ri = q[1], ki = q[2], vi = q[3];
+            for (int idx = li; idx <= ri; idx += ki) {
+                long long val = nums[idx];
+                val = (val * 1LL * vi) % MOD;
+                nums[idx] = (int)val;
+            }
+        }
+
+        int ans = 0;
+        for (int x : nums) ans ^= x;
+        return ans;
+    }
+};
