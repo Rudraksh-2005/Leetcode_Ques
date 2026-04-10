@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int minimumDistance(vector<int>& nums) {
+        int n=nums.size();
+        if(n<3) return -1;
+        unordered_map<int,vector<int>>mpp;
+        int len=INT_MAX;
+
+
+        for(int i=0;i<n;i++){
+            mpp[nums[i]].push_back(i);
+        }
+
+        for(auto it:mpp){
+            int element=it.first;
+            vector<int>ans=it.second;
+            if(ans.size()<3)continue;
+
+            for(int i=0;i<ans.size()-2;i++){
+                int a=ans[i];
+                int b=ans[i+1];
+                int c=ans[i+2];
+
+                int p=abs(a- b) + abs(b - c) + abs(c - a);
+                len=min(p,len);
+
+            }
+        }   
+
+        if(len==INT_MAX)return -1;
+        return len;
+    }
+};
