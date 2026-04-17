@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int reverse(int num){
+        int b=0;
+        
+        while(num>0){
+            b=b*10+num%10;
+            num=num/10;
+        }
+
+        return b;
+    }
+    int minMirrorPairDistance(vector<int>& nums) {
+        int n=nums.size();
+        unordered_map<int,vector<int>>mpp;
+
+        for(int i=0;i<n;i++){
+            
+            mpp[nums[i]].push_back(i);     
+            
+            
+        }
+
+        int mini=INT_MAX;
+
+        for(int i=0;i<n;i++){
+             int a = reverse(nums[i]);
+
+    if(mpp.find(a) != mpp.end()){
+        auto &vec = mpp[a];
+
+        auto it = upper_bound(vec.begin(), vec.end(), i);
+        if(it != vec.end()){
+            mini = min(mini, *it - i);
+        }
+    }
+        }
+
+        if(mini==INT_MAX)return -1;
+
+        return mini;
+    }
+};
