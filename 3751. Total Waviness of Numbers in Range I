@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int check(string num){
+        if(num.length()<3)return 0;
+        int p=0;
+        for(int i=1;i<num.length()-1;i++){
+            if(num[i]>num[i-1] && num[i]>num[i+1]){
+                p++;
+            }
+            else if(num[i]<num[i-1] && num[i]<num[i+1]){
+                p++;
+            }
+        }
+        return p;
+    }
+    
+    int totalWaviness(int num1, int num2) {
+        int cnt=0;
+        for(int i=num1;i<=num2;i++){
+            string s=to_string(i);
+            int ans=check(s);
+            cnt+=ans;
+            
+        }
+
+        return cnt;
+            
+    }
+};
