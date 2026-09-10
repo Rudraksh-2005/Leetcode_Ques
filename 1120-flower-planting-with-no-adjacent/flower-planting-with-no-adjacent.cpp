@@ -1,54 +1,42 @@
 class Solution {
-private:
-    void assignFlower(
-        int garden,
-        vector<int>&partition,
-        const vector<vector<int>>&adjList
-    ){
-        queue<int>q;
-        partition[garden] = 1;
-        q.push(garden);
-        while(!q.empty()){
-            int currGarden = q.front();
-            q.pop();
+public:
+    vector<int> gardenNoAdj(int n, vector<vector<int>>& paths) {
 
-            for(auto&adjacentGarden:adjList[currGarden]){
-                bool isVisited = (partition[adjacentGarden]!=-1);
-                bool hasSameColor = (partition[adjacentGarden] == partition[currGarden]);
+        vector<vector<int>> adj(n + 1);
+        for (auto it : paths) {
+            int u = it[0];
+            int v = it[1];
 
-                if(!isVisited){
-                    partition[adjacentGarden] = (partition[currGarden]%4) +1;
-                    q.push(adjacentGarden);
-                    continue;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+
+        vector<int> color(n + 1, 0);
+
+
+        for (int i = 1; i <= n; i++) {
+             vector<bool> used(5, false);
+
+            for (int neighbour : adj[i]) {
+                if (color[neighbour] != 0) {
+                    used[color[neighbour]] = true;
                 }
-
-                if(hasSameColor){
-                    partition[adjacentGarden] = (partition[adjacentGarden])%4 +1;
+            }
+            for (int c = 1; c <= 4; c++) {
+                if (!used[c]) {
+                    color[i] = c;
+                    break;
                 }
             }
         }
 
-        return;
-    }
+        vector<int> ans;
 
-public:
-    vector<int> gardenNoAdj(int n, vector<vector<int>>& paths) {
-        vector<vector<int>>adjList(n);
-        for(auto&path:paths){
-            int u = path[0]-1;
-            int v = path[1]-1;
-
-            adjList[u].push_back(v);
-            adjList[v].push_back(u);
+        for (int i = 1; i <= n; i++) {
+            ans.push_back(color[i]);
         }
 
-        vector<int>partition(n,-1);
-        for(int i=0;i<n;++i){
-            if(partition[i]!=-1) continue;
-            
-            assignFlower(i,partition,adjList);
-        }
-
-        return partition;
+        return ans;
     }
 };
